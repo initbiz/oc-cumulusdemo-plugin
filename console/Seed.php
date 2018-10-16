@@ -1,6 +1,7 @@
 <?php namespace Initbiz\CumulusDemo\Console;
 
 use Illuminate\Console\Command;
+use RainLab\User\Models\Settings as UserSettings;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputArgument;
 use Initbiz\CumulusCore\Models\AutoAssignSettings;
@@ -138,10 +139,19 @@ class Seed extends Command
      */
     public function seedAutoAssignSettings()
     {
-        $autoAssignModel = AutoAssignSettings::instance();
-        if (!isset($autoAssignModel)) {
-        } else {
-        }
+        $data = [
+            "enable_auto_assign_user" => "1",
+            "auto_assign_user" => "new_cluster",
+            "auto_assign_user_get_cluster" => "cluster",
+            "auto_assign_user_new_cluster" => "clustername",
+            "enable_auto_assign_user_to_group" => "1",
+            "group_to_auto_assign_user" => "registered",
+            "enable_auto_assign_cluster" => "1",
+            "auto_assign_cluster" => "concrete_plan",
+            "auto_assign_cluster_get_plan" => "plan",
+            "auto_assign_cluster_concrete_plan" => "free"
+        ];
+        AutoAssignSettings::set($data);
     }
 
     /**
@@ -150,5 +160,14 @@ class Seed extends Command
     */
     public function seedUserSettings()
     {
+        $data = [
+            "require_activation" => "1",
+            "activate_mode" => "auto",
+            "use_throttle" => "1",
+            "block_persistence" => "0",
+            "allow_registration" => "1",
+            "login_attribute" => "email"
+        ];
+        UserSettings::set($data);
     }
 }

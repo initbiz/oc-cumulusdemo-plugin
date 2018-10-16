@@ -1,12 +1,17 @@
 # CumulusDemo plugin
 ## Introduction
-It is a great plugin to help you understand how Cumulus works. It may be used with [Cumulus theme] to boost creation of SaaS app.
+The plugin has been created to help you understand how [CumulusCore](https://octobercms.com/plugin/initbiz-cumuluscore) plugin works.
+
+It may be used with [Cumulus theme](https://octobercms.com/theme/initbiz-cumulus) to boost creation of SaaS app.
+
+The plugin is created just for demonstration purpose, to show you how Cumulus works and behaves with example feature and data. It is not required by Cumulus to work.
 
 ## Documentation
-The plugin is created just for demonstration purpose, to show you how Cumulus works and behaves with example feature and data.
+Right now the plugin has only one purpose: seed [CumulusCore](https://octobercms.com/plugin/initbiz-cumuluscore) based application with example data and configure the environment.
 
-### `php artisan cumulus:seed`
-The command will seed some initial, example data that will make [Cumulus theme]() fully work. It will:
+To do this you have to run `php artisan cumulus:seed` command.
+
+The command will seed some initial, example data that will make [Cumulus theme](https://octobercms.com/theme/initbiz-cumulus) work. It will:
 
 1. register two features: `initbiz.cumulusdemo.free_feature` and `initbiz.cumulusdemo.paid_feature`,
 1. create Free plan with access to `free_feature` only
