@@ -13,7 +13,7 @@ The command will seed some initial, example data that will make [Cumulus theme](
 1. create Full plan with access to `free_feature` and `paid_feature`
 1. create cluster ACME corp. with Free plan
 1. create Foo Bar with Full plan
-1. seed example user (with demo / demo credentials) and give him access to both clusters,
+1. seed example user (with demo@example.com / demo credentials) and give him access to both clusters,
 1. configure auto assigning users to:
     1. create new clusters based on company name given in register form
     1. assign new clusters to free plan

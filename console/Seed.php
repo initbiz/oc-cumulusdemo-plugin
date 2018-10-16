@@ -111,11 +111,25 @@ class Seed extends Command
     }
 
     /**
-     * Seeds example demo user with demo / demo credentials
+     * Seeds example demo user with demo@example.com / demo credentials
      * @return void
      */
     public function seedExampleUser()
     {
+        $data = [
+            'name' => 'demo',
+            'email' => 'demo@example.com',
+            'is_activated' => "1",
+            'password' => 'demo',
+            'password_confirmation' => 'demo',
+            'username' => 'demo@example.com',
+        ];
+
+        $user = $this->userRepository->create($data);
+        $this->userRepository->activateUser($user->id);
+        $this->userRepository->addUserToGroup($user->id, 'registered');
+        $this->clusterRepository->addUserToCluster($user->id, 'acme-corp');
+        $this->clusterRepository->addUserToCluster($user->id, 'foo-bar');
     }
 
     /**

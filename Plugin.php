@@ -16,8 +16,8 @@ class Plugin extends PluginBase
     public function pluginDetails()
     {
         return [
-            'name'        => 'Cumulus Demo Plugin',
-            'description' => 'Demonstration plugin for CumulusCore based application',
+            'name'        => 'initbiz.cumulusdemo::lang.plugin.name',
+            'description' => 'initbiz.cumulusdemo::lang.plugin.description',
             'author'      => 'Initbiz',
             'icon'        => 'icon-leaf'
         ];
@@ -31,5 +31,19 @@ class Plugin extends PluginBase
     public function register()
     {
         $this->registerConsoleCommand('cumulus:seed', 'Initbiz\CumulusDemo\Console\Seed');
+    }
+
+    public function registerCumulusFeatures()
+    {
+        return [
+           'initbiz.cumulusdemo.free_feature' => [
+               'name' => 'initbiz.cumulusdemo::lang.features.free_feature',
+               'description' => 'initbiz.cumulusdemo::lang.features.free_feature_desc',
+           ],
+           'initbiz.cumulusdemo.paid_feature' => [
+               'name' => 'initbiz.cumulusdemo::lang.features.paid_feature',
+               'description' => 'initbiz.cumulusdemo::lang.features.paid_feature_desc',
+           ]
+        ];
     }
 }
