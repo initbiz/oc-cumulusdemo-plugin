@@ -8,7 +8,7 @@ The plugin is created just for demonstration purpose, to show you how Cumulus wo
 
 See it in action in the following video:
 
-[![Cumulus demo video thumbnail](https://github.com/initbizlab/oc-cumuluscore-plugin/raw/master/docs/images/youtube_demo_screenshot.png)](https://www.youtube.com/watch?v=Y0-OvGzmP5w "Cumulus demo video")
+[![Cumulus demo video thumbnail](https://github.com/initbizlab/oc-cumuluscore-plugin/raw/master/docs/images/youtube_demo_screenshot.png)](https://www.youtube.com/watch?v=Y0-OvGzmP5w)
 
 ## Documentation
 Right now the plugin has only one purpose: seed [CumulusCore](https://octobercms.com/plugin/initbiz-cumuluscore) based application with example data and configure the environment.
