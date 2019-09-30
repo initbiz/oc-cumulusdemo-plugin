@@ -1,13 +1,15 @@
 <?php namespace Initbiz\CumulusDemo\Console;
 
+use RainLab\User\Models\User;
 use Illuminate\Console\Command;
-use RainLab\User\Models\Settings as UserSettings;
+use RainLab\User\Models\UserGroup;
+use Initbiz\CumulusCore\Models\Plan;
+use Initbiz\CumulusCore\Models\Cluster;
+use Initbiz\CumulusCore\Classes\FeatureManager;
 use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
+use RainLab\User\Models\Settings as UserSettings;
 use Initbiz\CumulusCore\Models\AutoAssignSettings;
-use Initbiz\CumulusCore\Repositories\PlanRepository;
-use Initbiz\CumulusCore\Repositories\UserRepository;
-use Initbiz\CumulusCore\Repositories\ClusterRepository;
+use Symfony\Component\Console\Input\InputArgument;
 
 class Seed extends Command
 {
@@ -21,20 +23,6 @@ class Seed extends Command
      */
     protected $description = 'Seed initial data for example Cumulus app';
 
-    /**
-     * @var PlanRepository
-     */
-    protected $planRepository;
-
-    /**
-     * @var ClusterRepository
-     */
-    protected $clusterRepository;
-
-    /**
-     * @var UserRepository
-     */
-    protected $userRepository;
 
     /**
      * Execute the console command.
@@ -57,9 +45,8 @@ class Seed extends Command
      */
     public function prepareEnv()
     {
-        $this->planRepository = new PlanRepository();
-        $this->clusterRepository = new ClusterRepository();
-        $this->userRepository = new UserRepository();
+        $this->planRepository = new Plan();
+        $this->clusterRepository = new Cluster();
     }
 
     /**
@@ -70,20 +57,69 @@ class Seed extends Command
      */
     public function seedExamplePlans()
     {
-        $data = [
-            'name' => 'Free',
-            'features' => 'initbiz.cumulusdemo.free_feature'
-        ];
-        $this->planRepository->create($data);
+        $featureManager = FeatureManager::instance();
+        $featureManager->clearCache();
 
-        $data = [
-            'name' => 'Full',
-            'features' => [
-                'initbiz.cumulusdemo.free_feature',
-                'initbiz.cumulusdemo.paid_feature'
-            ]
+        $this->output->writeln('<info>- cumulus</info>');
+
+        // Basic plan create
+        $basicPlan = Plan::where('slug', 'basic')->first();
+
+
+        if (!$basicPlan) {
+            $basicPlan = new Plan();
+            $basicPlan->name = 'Basic';
+            $basicPlan->slug = 'basic';
+            $basicPlan->is_expiring = false;
+            $basicPlan->is_paid = false;
+            $basicPlan->is_registration_allowed = true;
+        }
+
+        $basicPlan->features = [
+            'initbiz.cumulusdemo.basic.dashboard',
+            'initbiz.cumulusdemo.basic.todo'
         ];
-        $this->planRepository->create($data);
+        $basicPlan->save();
+
+        //Plus plan create 
+        $plusPlan = Plan::where('slug', 'plus')->first();
+
+        if (!$plusPlan) {
+            $plusPlan = new Plan();
+            $plusPlan->name = 'Plus';
+            $plusPlan->slug = 'plus';
+            $plusPlan->is_expiring = true;
+            $plusPlan->is_paid = true;
+            $plusPlan->is_registration_allowed = false;
+        }
+
+        $plusPlan->features = [
+            'initbiz.cumulusdemo.advenced.dashboard',
+            'initbiz.cumulusdemo.basic.dashboard',
+            'initbiz.cumulusdemo.basic.gallery',
+            'initbiz.cumulusdemo.basic.todo'
+        ];
+        $plusPlan->save();
+
+        //Plus pro create 
+        $proPlan = Plan::where('slug', 'pro')->first();
+
+        if (!$proPlan) {
+            $proPlan = new Plan();
+            $proPlan->name = 'Pro';
+            $proPlan->slug = 'pro';
+            $proPlan->is_expiring = true;
+            $proPlan->is_paid = true;
+            $proPlan->is_registration_allowed = false;
+        }
+
+        $proPlan->features = [
+            'initbiz.cumulusdemo.advenced.dashboard',
+            'initbiz.cumulusdemo.advenced.todo',
+            'initbiz.cumulusdemo.advenced.gallery',
+            'initbiz.cumulusdemo.basic.dashboard',
+        ];
+        $proPlan->save();
     }
 
     /**
@@ -94,43 +130,64 @@ class Seed extends Command
      */
     public function seedExampleClusters()
     {
-        //ACME Corp.
-        $data = [
-            'name' => 'ACME Corp.'
-        ];
+        $basicPlan = Plan::where('slug', 'basic')->first();
+        $smallcompany = Cluster::where('slug', 'small_company')->first();
+        if (!$smallcompany){
+            $smallcompany = new Cluster();
+            $smallcompany->name = 'Small Company';
+            $smallcompany->slug = 'small_company';
+            $smallcompany->plan = $basicPlan->id;
+            $smallcompany->save();
+        }
 
-        $this->clusterRepository->create($data);
-        $this->clusterRepository->addClusterToPlan('acme-corp', 'free');
+        $plusPlan = Plan::where('slug', 'plus')->first();
+        $mediumcompany = Cluster::where('slug', 'medium_company')->first();
+        if (!$mediumcompany){
+            $mediumcompany = new Cluster();
+            $mediumcompany->name = 'Medium Company';
+            $mediumcompany->slug = 'medium_company';
+            $mediumcompany->plan = $plusPlan->id;
+            $mediumcompany->save();
+        }
 
-        //Foo Bar
-        $data = [
-            'name' => 'Foo Bar',
-        ];
-
-        $this->clusterRepository->create($data);
-        $this->clusterRepository->addClusterToPlan('foo-bar', 'full');
+        $proPlan = Plan::where('slug', 'pro')->first();
+        $bigcompany = Cluster::where('slug', 'big_company')->first();
+        if (!$bigcompany){
+            $bigcompany = new Cluster();
+            $bigcompany->name = 'Big Company';
+            $bigcompany->slug = 'big_company';
+            $bigcompany->plan = $proPlan->id;
+            $bigcompany->save();
+        }
     }
-
     /**
      * Seeds example demo user with demo@example.com / demo credentials
      * @return void
      */
     public function seedExampleUser()
     {
-        $data = [
-            'name' => 'demo',
-            'email' => 'demo@example.com',
-            'is_activated' => "1",
-            'password' => 'demo',
-            'password_confirmation' => 'demo',
-            'username' => 'demo@example.com',
-        ];
+        $user = User::where('email', 'demo@initbiz.com')->first();
+        if(!$user){
+            $user = new User();
+            $user->name = 'demo';
+            $user->name = 'demo';
+            $user->email = 'demo@initbiz.com';
+            $user->is_activated = "1";
+            $user->password = 'demo@initbiz.com';
+            $user->password_confirmation = 'demo@initbiz.com';
+            $user->username = 'demo@initbiz.com';
+            $user->save();
 
-        $user = $this->userRepository->create($data);
-        $this->userRepository->activateUser($user->id);
-        $this->userRepository->addUserToGroup($user->id, 'registered');
-        $this->clusterRepository->addUserToCluster($user->id, 'acme-corp');
-        $this->clusterRepository->addUserToCluster($user->id, 'foo-bar');
+            $group = UserGroup::where('code', 'registered')->first();
+            $user->groups()->add($group, $user->id);
+
+            $smallcompany = Cluster::where('slug', 'small_company')->first();
+            $user->clusters()->syncWithoutDetaching($smallcompany, $user->id);
+            $mediumcompany = Cluster::where('slug', 'medium_company')->first();
+            $user->clusters()->syncWithoutDetaching($mediumcompany, $user->id);
+            $bigcompany = Cluster::where('slug', 'big_company')->first();
+            $user->clusters()->syncWithoutDetaching($bigcompany, $user->id);
+        }
     }
 
     /**
