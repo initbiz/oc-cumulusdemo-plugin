@@ -17,4 +17,7 @@
         'advenced_todo' => 'Advenced ToDo',
         'advenced_todo_desc' => '',
     ],
+    'exceptions' => [
+        'todo_error' => 'You have reached the limit. Upgrade your plan to add more'
+    ]
 ];

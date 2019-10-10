@@ -1,7 +1,7 @@
 <?php namespace Initbiz\CumulusDemo\Components;
 
 use Flash;
-use ApplicationException;
+use Redirect;
 use Cms\Classes\ComponentBase;
 use Initbiz\InitDry\Classes\Helpers;
 use Initbiz\CumulusDemo\Models\TodoItem;
@@ -35,9 +35,9 @@ class Todo extends ComponentBase
         try{
             $item->save();
         }
-        catch(Exception $e){
+        catch(\Exception $e){
             Flash::error($e->getMessage());
-            return;
+            return Redirect::refresh();
         }
 
         $this->page['items'] = TodoItem::with('user')->clusterIdFiltered()->get();
