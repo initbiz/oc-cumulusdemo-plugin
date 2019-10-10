@@ -1,1 +1,5 @@
-1.0.1: First version of CumulusDemo
+1.0.1: 
+    - First version of CumulusDemo
+1.0.2: 
+    - Contability Cumulus v3 and add todo list 
+    - create_todo_items_table.php

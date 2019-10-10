@@ -1,7 +1,11 @@
 <?php namespace Initbiz\CumulusDemo\Components;
 
-use Cms\Classes\ComponentBase;
+use Flash;
 use ApplicationException;
+use Cms\Classes\ComponentBase;
+use Initbiz\InitDry\Classes\Helpers;
+use Initbiz\CumulusDemo\Models\TodoItem;
+use Initbiz\CumulusCore\Classes\Helpers as CumulusHelpers;
 
 class Todo extends ComponentBase
 {
@@ -14,19 +18,32 @@ class Todo extends ComponentBase
         ];
     }
 
+    public function onRun()
+    {   
+        $this->page['items'] = TodoItem::with('user')->clusterIdFiltered()->get();
+    }
 
     public function onAddItem()
     {
-        $items = post('items', []);
+        $cluster = CumulusHelpers::getCluster();
+        $user = Helpers::getUser();
 
-        if (count($items) >= $this->property('max')) {
-            throw new ApplicationException(sprintf('Sorry only %s items are allowed.', $this->property('max')));
+        $item = new TodoItem();
+        $item->name = post('newItem');
+        $item->cluster_id = $cluster->id; 
+        $item->user_id = $user->id;
+        try{
+            $item->save();
+        }
+        catch(Exception $e){
+            Flash::error($e->getMessage());
+            return;
         }
 
-        if (($newItem = post('newItem')) != '') {
-            $items[] = $newItem;
-        }
-
-        $this->page['items'] = $items;
+        $this->page['items'] = TodoItem::with('user')->clusterIdFiltered()->get();
+    }
+    public function onRemoveItem()
+    {
+        $del= TodoItem::where('id', post('delItem'))->delete();
     }
 }
