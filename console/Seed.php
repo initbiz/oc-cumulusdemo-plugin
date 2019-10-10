@@ -94,7 +94,7 @@ class Seed extends Command
         }
 
         $plusPlan->features = [
-            'initbiz.cumulusdemo.advenced.dashboard',
+            'initbiz.cumulusdemo.advanced.dashboard',
             'initbiz.cumulusdemo.basic.dashboard',
             'initbiz.cumulusdemo.basic.gallery',
             'initbiz.cumulusdemo.basic.todo'
@@ -114,9 +114,9 @@ class Seed extends Command
         }
 
         $proPlan->features = [
-            'initbiz.cumulusdemo.advenced.dashboard',
-            'initbiz.cumulusdemo.advenced.todo',
-            'initbiz.cumulusdemo.advenced.gallery',
+            'initbiz.cumulusdemo.advanced.dashboard',
+            'initbiz.cumulusdemo.advanced.todo',
+            'initbiz.cumulusdemo.advanced.gallery',
             'initbiz.cumulusdemo.basic.dashboard',
         ];
         $proPlan->save();

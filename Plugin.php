@@ -31,7 +31,7 @@ class Plugin extends PluginBase
     public function registerComponents()
     {
         return [
-            'Initbiz\CumulusDemo\Components\ToDo' =>  'todolist'
+            'Initbiz\CumulusDemo\Components\Todo' =>  'todo'
         ];
     }
     public function register()
@@ -46,9 +46,9 @@ class Plugin extends PluginBase
                'name' => 'initbiz.cumulusdemo::lang.features.basic_dashboard',
                'description' => 'initbiz.cumulusdemo::lang.features.basic_dashboard_desc',
            ],
-           'initbiz.cumulusdemo.advenced.dashboard' => [
-               'name' => 'initbiz.cumulusdemo::lang.features.advenced_dashboard',
-               'description' => 'initbiz.cumulusdemo::lang.features.advenced_dashboard_desc',
+           'initbiz.cumulusdemo.advanced.dashboard' => [
+               'name' => 'initbiz.cumulusdemo::lang.features.advanced_dashboard',
+               'description' => 'initbiz.cumulusdemo::lang.features.advanced_dashboard_desc',
            ],
            'initbiz.cumulusdemo.basic.todo' => [
                'name' => 'initbiz.cumulusdemo::lang.features.basic_todo',
@@ -58,13 +58,13 @@ class Plugin extends PluginBase
                'name' => 'initbiz.cumulusdemo::lang.features.basic_gallery',
                'description' => 'initbiz.cumulusdemo::lang.features.basic_gallery_desc',
            ],
-           'initbiz.cumulusdemo.advenced.todo' => [
-               'name' => 'initbiz.cumulusdemo::lang.features.advenced_todo',
-               'description' => 'initbiz.cumulusdemo::lang.features.advenced_todo_desc',
+           'initbiz.cumulusdemo.advanced.todo' => [
+               'name' => 'initbiz.cumulusdemo::lang.features.advanced_todo',
+               'description' => 'initbiz.cumulusdemo::lang.features.advanced_todo_desc',
            ],
-           'initbiz.cumulusdemo.advenced.gallery' => [
-               'name' => 'initbiz.cumulusdemo::lang.features.advenced_gallery',
-               'description' => 'initbiz.cumulusdemo::lang.features.advenced_gallery_desc',
+           'initbiz.cumulusdemo.advanced.gallery' => [
+               'name' => 'initbiz.cumulusdemo::lang.features.advanceds_gallery',
+               'description' => 'initbiz.cumulusdemo::lang.features.advanced_gallery_desc',
            ],
         ];
     }
