@@ -1,15 +1,18 @@
 <?php namespace Initbiz\CumulusDemo\Console;
 
+use Carbon\Carbon;
 use RainLab\User\Models\User;
 use Illuminate\Console\Command;
 use RainLab\User\Models\UserGroup;
 use Initbiz\CumulusCore\Models\Plan;
 use Initbiz\CumulusCore\Models\Cluster;
+use RainLab\Notify\Models\NotificationRule;
 use Initbiz\CumulusCore\Classes\FeatureManager;
 use Symfony\Component\Console\Input\InputOption;
 use RainLab\User\Models\Settings as UserSettings;
 use Initbiz\CumulusCore\Models\AutoAssignSettings;
 use Symfony\Component\Console\Input\InputArgument;
+use Initbiz\CumulusSubscriptions\Models\Subscription;
 
 class Seed extends Command
 {
@@ -33,7 +36,9 @@ class Seed extends Command
         $this->prepareEnv();
         $this->seedExamplePlans();
         $this->seedExampleClusters();
+        $this->seedExampleSubscriptions();
         $this->seedExampleUser();
+        $this->rainlabNotify();
         $this->seedAutoAssignSettings();
         $this->seedUserSettings();
         $this->output->writeln('Done!');
@@ -77,7 +82,9 @@ class Seed extends Command
 
         $basicPlan->features = [
             'initbiz.cumulusdemo.basic.dashboard',
-            'initbiz.cumulusdemo.basic.todo'
+            'initbiz.cumulusdemo.basic.todo',
+            'initbiz.cumulussubscriptions.manage_subscription',
+            'initbiz.cumulusplus.cluster_settings',
         ];
         $basicPlan->save();
 
@@ -97,6 +104,8 @@ class Seed extends Command
             'initbiz.cumulusdemo.advanced.dashboard',
             'initbiz.cumulusdemo.basic.dashboard',
             'initbiz.cumulusdemo.basic.gallery',
+            'initbiz.cumulussubscriptions.manage_subscription',
+            'initbiz.cumulusplus.cluster_settings',
             'initbiz.cumulusdemo.basic.todo'
         ];
         $plusPlan->save();
@@ -118,6 +127,8 @@ class Seed extends Command
             'initbiz.cumulusdemo.advanced.todo',
             'initbiz.cumulusdemo.advanced.gallery',
             'initbiz.cumulusdemo.basic.dashboard',
+            'initbiz.cumulussubscriptions.manage_subscription',
+            'initbiz.cumulusplus.cluster_settings',
         ];
         $proPlan->save();
     }
@@ -160,6 +171,59 @@ class Seed extends Command
             $bigcompany->save();
         }
     }
+    
+    public function seedExampleSubscriptions()
+    {
+        $smallcompany = Cluster::where('slug', 'small_company')->first();
+        $subsryption = $smallcompany->subscription;
+        if(!$subsryption)
+        {
+            $subsryption = new Subscription();
+            $subsryption->is_active = true;
+            $subsryption->cluster_slug = $smallcompany->slug;
+            $subsryption->plan = Plan::where('slug', 'plus')->first();
+            $subsryption->starts_at = Carbon::now();
+            $subsryption->save();
+        }
+        
+        $mediumcompany = Cluster::where('slug', 'medium_company')->first();
+        $subsryption = $mediumcompany->subscription;
+        if(!$subsryption)
+        {
+            $subsryption = new Subscription();
+            $subsryption->is_active = true;
+            $subsryption->cluster_slug = $mediumcompany->slug;
+            $subsryption->plan = Plan::where('slug', 'pro')->first();
+            $subsryption->starts_at = Carbon::now();
+            $subsryption->save();
+        }
+        
+        $bigcompany = Cluster::where('slug', 'big_company')->first();
+        $subsryption =$bigcompany->subscription;
+        if(!$subsryption)
+        {
+            $subsryption = new Subscription();
+            $subsryption->is_active = true;
+            $subsryption->cluster_slug = $bigcompany->slug;
+            $subsryption->plan = Plan::where('slug', 'basic')->first();
+            $subsryption->starts_at = Carbon::now();
+            $subsryption->save();
+        }
+    }
+
+    public function rainlabNotify()
+    {
+        $this->output->writeln('<info>- notify</info>');
+
+        //Disabling notifiing new users
+        $rule = NotificationRule::where('code', 'welcome_email')->first();
+
+        if ($rule) {
+            $rule->is_enabled = false;
+            $rule->save();
+        }
+    }
+
     /**
      * Seeds example demo user with demo@example.com / demo credentials
      * @return void
@@ -206,7 +270,7 @@ class Seed extends Command
             "enable_auto_assign_cluster" => "1",
             "auto_assign_cluster" => "concrete_plan",
             "auto_assign_cluster_get_plan" => "plan",
-            "auto_assign_cluster_concrete_plan" => "free"
+            "auto_assign_cluster_concrete_plan" => "basic"
         ];
         AutoAssignSettings::set($data);
     }
@@ -223,7 +287,8 @@ class Seed extends Command
             "use_throttle" => "1",
             "block_persistence" => "0",
             "allow_registration" => "1",
-            "login_attribute" => "email"
+            "login_attribute" => "email",
+            "remember_login"        => "always",
         ];
         UserSettings::set($data);
     }

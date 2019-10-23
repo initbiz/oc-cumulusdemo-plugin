@@ -31,12 +31,26 @@ class Plugin extends PluginBase
     public function registerComponents()
     {
         return [
-            'Initbiz\CumulusDemo\Components\Todo' =>  'todo'
+            'Initbiz\CumulusDemo\Components\Todo' =>  'todo',
+            'Initbiz\CumulusDemo\Components\Gallery' =>  'gallery',
+            'Initbiz\CumulusDemo\Components\Chart' =>  'chart'
         ];
     }
     public function register()
     {
         $this->registerConsoleCommand('cumulus:seed', 'Initbiz\CumulusDemo\Console\Seed');
+    }   
+    
+    public function registerCumulusDashboards()
+    {
+        return [
+            'chart' => [
+                'permissions'  => 'initbiz.cumulusdemo.advanced.dashboard',
+                'height'      => 1,
+                'width'       => 5,
+                'order'       => 10,
+            ],
+        ];
     }
 
     public function registerCumulusFeatures()

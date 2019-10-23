@@ -19,5 +19,12 @@
     ],
     'exceptions' => [
         'todo_error' => 'You have reached the limit. Upgrade your plan to add more'
+    ],
+    'components' => [
+        'todo' => [
+            'name' => 'To Do List',
+            'add_button' => 'Add',
+            'value' => 'What needs to be done?',
+        ],
     ]
 ];
