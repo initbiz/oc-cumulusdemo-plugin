@@ -36,7 +36,6 @@ class Seed extends Command
     public function handle()
     {
         $pluginManager = PluginManager::instance();
-        $this->prepareEnv();
         $this->seedExamplePlans();
         $this->seedExampleClusters();
         if($pluginManager->hasPlugin('Initbiz.CumulusSubsacriptions')){
@@ -53,19 +52,7 @@ class Seed extends Command
     }
 
     /**
-     * Prepare eunvironment before running method
-     * @return void
-     */
-    public function prepareEnv()
-    {
-        $this->planRepository = new Plan();
-        $this->clusterRepository = new Cluster();
-    }
-
-    /**
-     * Seeds two example plans: free and full
-     * the first will have access only to initbiz.cumulusdemo.free_feature
-     * the second will have access to initbiz.cumulusdemo.free_feature and initbiz.cumulusdemo.paid_feature
+     * Seeds two example plans: basic, plus and pro
      * @return void
      */
     public function seedExamplePlans()
@@ -133,6 +120,8 @@ class Seed extends Command
         $proPlan->features = [
             'initbiz.cumulusdemo.advanced.dashboard',
             'initbiz.cumulusdemo.advanced.todo',
+            'initbiz.cumulusdemo.basic.todo',
+            'initbiz.cumulusdemo.basic.gallery',
             'initbiz.cumulusdemo.advanced.gallery',
             'initbiz.cumulusdemo.basic.dashboard',
             'initbiz.cumulussubscriptions.manage_subscription',
@@ -142,9 +131,11 @@ class Seed extends Command
     }
 
     /**
-     * Seeds two example clusters: ACME Corp. and Foo bar
-     * the first will have Free plan
-     * the second will have Full plan
+     * Seeds two example clusters: Small Company, Medium Company and Big Company
+     * the first will have Basic plan
+     * the second will have Plus plan
+     * the thirds will have Pro plan 
+     *
      * @return void
      */
     public function seedExampleClusters()
@@ -179,7 +170,12 @@ class Seed extends Command
             $bigcompany->save();
         }
     }
-    
+   
+   /**
+    * Undocumented function
+    *
+    * @return void
+    */ 
     public function seedExampleSubscriptions()
     {
         $smallcompany = Cluster::where('slug', 'small_company')->first();
@@ -247,7 +243,7 @@ class Seed extends Command
     }
 
     /**
-     * Seeds example demo user with demo@example.com / demo credentials
+     * Seeds example demo user with demo@init.biz / demo credentials
      * @return void
      */
     public function seedExampleUser()
