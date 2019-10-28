@@ -3,6 +3,7 @@
 use Carbon\Carbon;
 use RainLab\User\Models\User;
 use Illuminate\Console\Command;
+use System\Classes\PluginManager;
 use RainLab\User\Models\UserGroup;
 use Initbiz\CumulusCore\Models\Plan;
 use Initbiz\CumulusCore\Models\Cluster;
@@ -10,6 +11,7 @@ use RainLab\Notify\Models\NotificationRule;
 use Initbiz\CumulusCore\Classes\FeatureManager;
 use Symfony\Component\Console\Input\InputOption;
 use RainLab\User\Models\Settings as UserSettings;
+use Initbiz\CumulusAnnouncements\Models\Announcer;
 use Initbiz\CumulusCore\Models\AutoAssignSettings;
 use Symfony\Component\Console\Input\InputArgument;
 use Initbiz\CumulusSubscriptions\Models\Subscription;
@@ -33,10 +35,16 @@ class Seed extends Command
      */
     public function handle()
     {
+        $pluginManager = PluginManager::instance();
         $this->prepareEnv();
         $this->seedExamplePlans();
         $this->seedExampleClusters();
-        $this->seedExampleSubscriptions();
+        if($pluginManager->hasPlugin('Initbiz.CumulusSubsacriptions')){
+            $this->seedExampleSubscriptions();
+        }
+        if($pluginManager->hasPlugin('Initbiz.CumulusAnnouncements')){
+            $this->seedExampleAnnouncer();
+        }
         $this->seedExampleUser();
         $this->rainlabNotify();
         $this->seedAutoAssignSettings();
@@ -110,7 +118,7 @@ class Seed extends Command
         ];
         $plusPlan->save();
 
-        //Plus pro create 
+        //Pro plan create 
         $proPlan = Plan::where('slug', 'pro')->first();
 
         if (!$proPlan) {
@@ -208,6 +216,20 @@ class Seed extends Command
             $subsryption->plan = Plan::where('slug', 'basic')->first();
             $subsryption->starts_at = Carbon::now();
             $subsryption->save();
+        }
+    }
+
+    public function seedExampleAnnouncer()
+    {
+        $announcer = Announcer::where('title', 'Hello')->first();
+        if(!$announcer)
+        {
+            $announcer = new Announcer();
+            $announcer->title = 'Hello';
+            $announcer->content = "Hello world. I'm your first Announcement :)";
+            $announcer->published = true;
+            $announcer->type = "initbiz-cumuluscore-announcertypes-userregisterannouncertype";
+            $announcer->save();
         }
     }
 
