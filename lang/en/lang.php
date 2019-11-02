@@ -10,12 +10,12 @@
         'basic_todo_desc' => '',
         'basic_gallery' => 'Basic gallery',
         'basic_gallery_desc' => '',
-        'advenced_dashboard' => 'Advenced dashboard',
-        'advenced_dashboard_desc' => '',
-        'advenced_gallery' => 'Advenced gallery',
-        'advenced_gallery_desc' => '',
-        'advenced_todo' => 'Advenced ToDo',
-        'advenced_todo_desc' => '',
+        'advanced_dashboard' => 'Advenced dashboard',
+        'advanced_dashboard_desc' => '',
+        'advanced_gallery' => 'Advenced gallery',
+        'advanced_gallery_desc' => '',
+        'advanced_todo' => 'Advenced ToDo',
+        'advanced_todo_desc' => '',
     ],
     'exceptions' => [
         'todo_error' => 'You have reached the limit. Upgrade your plan to add more'
