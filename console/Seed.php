@@ -6,8 +6,11 @@ use Illuminate\Console\Command;
 use System\Classes\PluginManager;
 use RainLab\User\Models\UserGroup;
 use Initbiz\CumulusCore\Models\Plan;
+use RainLab\Translate\Models\Locale;
+use RainLab\Translate\Models\Message;
 use Initbiz\CumulusCore\Models\Cluster;
 use RainLab\Notify\Models\NotificationRule;
+use RainLab\Translate\Classes\ThemeScanner;
 use Initbiz\CumulusCore\Classes\FeatureManager;
 use Symfony\Component\Console\Input\InputOption;
 use RainLab\User\Models\Settings as UserSettings;
@@ -46,6 +49,7 @@ class Seed extends Command
         }
         $this->seedExampleUser();
         $this->rainlabNotify();
+        $this->rainlabTranslate();
         $this->seedAutoAssignSettings();
         $this->seedUserSettings();
         $this->output->writeln('Done!');
@@ -241,6 +245,24 @@ class Seed extends Command
             $rule->save();
         }
     }
+    public function rainlabTranslate()
+    {
+        $this->output->writeln('<info>- translate</info>');
+
+        //Adding Polish language
+        $locale = Locale::where('code', 'pl')->first();
+
+        if (!$locale) {
+            $locale = new Locale();
+            $locale->is_enabled = true;
+            $locale->code = 'pl';
+            $locale->name = 'Polski';
+            $locale->save();
+        }
+
+        Message::truncate();
+        ThemeScanner::scan();
+    }
 
     /**
      * Seeds example demo user with demo@init.biz / demo credentials
@@ -248,16 +270,16 @@ class Seed extends Command
      */
     public function seedExampleUser()
     {
-        $user = User::where('email', 'demo@initbiz.com')->first();
+        $user = User::where('email', 'demo@init.biz')->first();
         if(!$user){
             $user = new User();
             $user->name = 'demo';
             $user->name = 'demo';
-            $user->email = 'demo@initbiz.com';
+            $user->email = 'demo@init.biz';
             $user->is_activated = "1";
-            $user->password = 'demo@initbiz.com';
-            $user->password_confirmation = 'demo@initbiz.com';
-            $user->username = 'demo@initbiz.com';
+            $user->password = 'demo@init.biz';
+            $user->password_confirmation = 'demo@init.biz';
+            $user->username = 'demo@init.biz';
             $user->save();
 
             $group = UserGroup::where('code', 'registered')->first();
