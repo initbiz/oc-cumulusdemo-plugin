@@ -1,4 +1,6 @@
-<?php namespace Initbiz\CumulusDemo\Console;
+<?php
+
+namespace Initbiz\CumulusDemo\Console;
 
 use Carbon\Carbon;
 use RainLab\User\Models\User;
@@ -12,11 +14,9 @@ use Initbiz\CumulusCore\Models\Cluster;
 use RainLab\Notify\Models\NotificationRule;
 use RainLab\Translate\Classes\ThemeScanner;
 use Initbiz\CumulusCore\Classes\FeatureManager;
-use Symfony\Component\Console\Input\InputOption;
 use RainLab\User\Models\Settings as UserSettings;
 use Initbiz\CumulusAnnouncements\Models\Announcer;
 use Initbiz\CumulusCore\Models\AutoAssignSettings;
-use Symfony\Component\Console\Input\InputArgument;
 use Initbiz\CumulusSubscriptions\Models\Subscription;
 
 class Seed extends Command
@@ -41,10 +41,10 @@ class Seed extends Command
         $pluginManager = PluginManager::instance();
         $this->seedExamplePlans();
         $this->seedExampleClusters();
-        if($pluginManager->hasPlugin('Initbiz.CumulusSubsacriptions')){
+        if ($pluginManager->hasPlugin('Initbiz.CumulusSubsacriptions')) {
             $this->seedExampleSubscriptions();
         }
-        if($pluginManager->hasPlugin('Initbiz.CumulusAnnouncements')){
+        if ($pluginManager->hasPlugin('Initbiz.CumulusAnnouncements')) {
             $this->seedExampleAnnouncer();
         }
         $this->seedExampleUser();
@@ -87,7 +87,7 @@ class Seed extends Command
         ];
         $basicPlan->save();
 
-        //Plus plan create 
+        //Plus plan create
         $plusPlan = Plan::where('slug', 'plus')->first();
 
         if (!$plusPlan) {
@@ -109,7 +109,7 @@ class Seed extends Command
         ];
         $plusPlan->save();
 
-        //Pro plan create 
+        //Pro plan create
         $proPlan = Plan::where('slug', 'pro')->first();
 
         if (!$proPlan) {
@@ -138,7 +138,7 @@ class Seed extends Command
      * Seeds two example clusters: Small Company, Medium Company and Big Company
      * the first will have Basic plan
      * the second will have Plus plan
-     * the thirds will have Pro plan 
+     * the thirds will have Pro plan
      *
      * @return void
      */
@@ -146,7 +146,7 @@ class Seed extends Command
     {
         $basicPlan = Plan::where('slug', 'basic')->first();
         $smallcompany = Cluster::where('slug', 'small_company')->first();
-        if (!$smallcompany){
+        if (!$smallcompany) {
             $smallcompany = new Cluster();
             $smallcompany->name = 'Small Company';
             $smallcompany->slug = 'small_company';
@@ -156,7 +156,7 @@ class Seed extends Command
 
         $plusPlan = Plan::where('slug', 'plus')->first();
         $mediumcompany = Cluster::where('slug', 'medium_company')->first();
-        if (!$mediumcompany){
+        if (!$mediumcompany) {
             $mediumcompany = new Cluster();
             $mediumcompany->name = 'Medium Company';
             $mediumcompany->slug = 'medium_company';
@@ -166,7 +166,7 @@ class Seed extends Command
 
         $proPlan = Plan::where('slug', 'pro')->first();
         $bigcompany = Cluster::where('slug', 'big_company')->first();
-        if (!$bigcompany){
+        if (!$bigcompany) {
             $bigcompany = new Cluster();
             $bigcompany->name = 'Big Company';
             $bigcompany->slug = 'big_company';
@@ -174,18 +174,17 @@ class Seed extends Command
             $bigcompany->save();
         }
     }
-   
-   /**
-    * Undocumented function
-    *
-    * @return void
-    */ 
+
+    /**
+     * Undocumented function
+     *
+     * @return void
+     */
     public function seedExampleSubscriptions()
     {
         $smallcompany = Cluster::where('slug', 'small_company')->first();
         $subsryption = $smallcompany->subscription;
-        if(!$subsryption)
-        {
+        if (!$subsryption) {
             $subsryption = new Subscription();
             $subsryption->is_active = true;
             $subsryption->cluster_slug = $smallcompany->slug;
@@ -193,11 +192,10 @@ class Seed extends Command
             $subsryption->starts_at = Carbon::now();
             $subsryption->save();
         }
-        
+
         $mediumcompany = Cluster::where('slug', 'medium_company')->first();
         $subsryption = $mediumcompany->subscription;
-        if(!$subsryption)
-        {
+        if (!$subsryption) {
             $subsryption = new Subscription();
             $subsryption->is_active = true;
             $subsryption->cluster_slug = $mediumcompany->slug;
@@ -205,11 +203,10 @@ class Seed extends Command
             $subsryption->starts_at = Carbon::now();
             $subsryption->save();
         }
-        
+
         $bigcompany = Cluster::where('slug', 'big_company')->first();
-        $subsryption =$bigcompany->subscription;
-        if(!$subsryption)
-        {
+        $subsryption = $bigcompany->subscription;
+        if (!$subsryption) {
             $subsryption = new Subscription();
             $subsryption->is_active = true;
             $subsryption->cluster_slug = $bigcompany->slug;
@@ -222,8 +219,7 @@ class Seed extends Command
     public function seedExampleAnnouncer()
     {
         $announcer = Announcer::where('title', 'Hello')->first();
-        if(!$announcer)
-        {
+        if (!$announcer) {
             $announcer = new Announcer();
             $announcer->title = 'Hello';
             $announcer->content = "Hello world. I'm your first Announcement :)";
@@ -271,7 +267,7 @@ class Seed extends Command
     public function seedExampleUser()
     {
         $user = User::where('email', 'demo@init.biz')->first();
-        if(!$user){
+        if (!$user) {
             $user = new User();
             $user->name = 'demo';
             $user->name = 'demo';
@@ -316,9 +312,9 @@ class Seed extends Command
     }
 
     /**
-    * Seeds RainLab.User configuration (see documentation)
-    * @return void
-    */
+     * Seeds RainLab.User configuration (see documentation)
+     * @return void
+     */
     public function seedUserSettings()
     {
         $data = [

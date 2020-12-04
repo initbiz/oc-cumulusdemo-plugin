@@ -1,4 +1,6 @@
-<?php namespace Initbiz\CumulusDemo;
+<?php
+
+namespace Initbiz\CumulusDemo;
 
 use Backend;
 use System\Classes\PluginBase;
@@ -39,8 +41,8 @@ class Plugin extends PluginBase
     public function register()
     {
         $this->registerConsoleCommand('cumulus:seed', 'Initbiz\CumulusDemo\Console\Seed');
-    }   
-    
+    }
+
     public function registerCumulusDashboards()
     {
         return [
@@ -56,30 +58,30 @@ class Plugin extends PluginBase
     public function registerCumulusFeatures()
     {
         return [
-           'initbiz.cumulusdemo.basic.dashboard' => [
-               'name' => 'initbiz.cumulusdemo::lang.features.basic_dashboard',
-               'description' => 'initbiz.cumulusdemo::lang.features.basic_dashboard_desc',
-           ],
-           'initbiz.cumulusdemo.advanced.dashboard' => [
-               'name' => 'initbiz.cumulusdemo::lang.features.advanced_dashboard',
-               'description' => 'initbiz.cumulusdemo::lang.features.advanced_dashboard_desc',
-           ],
-           'initbiz.cumulusdemo.basic.todo' => [
-               'name' => 'initbiz.cumulusdemo::lang.features.basic_todo',
-               'description' => 'initbiz.cumulusdemo::lang.features.basic_todo_desc',
-           ],
-           'initbiz.cumulusdemo.basic.gallery' => [
-               'name' => 'initbiz.cumulusdemo::lang.features.basic_gallery',
-               'description' => 'initbiz.cumulusdemo::lang.features.basic_gallery_desc',
-           ],
-           'initbiz.cumulusdemo.advanced.todo' => [
-               'name' => 'initbiz.cumulusdemo::lang.features.advanced_todo',
-               'description' => 'initbiz.cumulusdemo::lang.features.advanced_todo_desc',
-           ],
-           'initbiz.cumulusdemo.advanced.gallery' => [
-               'name' => 'initbiz.cumulusdemo::lang.features.advanceds_gallery',
-               'description' => 'initbiz.cumulusdemo::lang.features.advanced_gallery_desc',
-           ],
+            'initbiz.cumulusdemo.basic.dashboard' => [
+                'name' => 'initbiz.cumulusdemo::lang.features.basic_dashboard',
+                'description' => 'initbiz.cumulusdemo::lang.features.basic_dashboard_desc',
+            ],
+            'initbiz.cumulusdemo.advanced.dashboard' => [
+                'name' => 'initbiz.cumulusdemo::lang.features.advanced_dashboard',
+                'description' => 'initbiz.cumulusdemo::lang.features.advanced_dashboard_desc',
+            ],
+            'initbiz.cumulusdemo.basic.todo' => [
+                'name' => 'initbiz.cumulusdemo::lang.features.basic_todo',
+                'description' => 'initbiz.cumulusdemo::lang.features.basic_todo_desc',
+            ],
+            'initbiz.cumulusdemo.basic.gallery' => [
+                'name' => 'initbiz.cumulusdemo::lang.features.basic_gallery',
+                'description' => 'initbiz.cumulusdemo::lang.features.basic_gallery_desc',
+            ],
+            'initbiz.cumulusdemo.advanced.todo' => [
+                'name' => 'initbiz.cumulusdemo::lang.features.advanced_todo',
+                'description' => 'initbiz.cumulusdemo::lang.features.advanced_todo_desc',
+            ],
+            'initbiz.cumulusdemo.advanced.gallery' => [
+                'name' => 'initbiz.cumulusdemo::lang.features.advanceds_gallery',
+                'description' => 'initbiz.cumulusdemo::lang.features.advanced_gallery_desc',
+            ],
         ];
     }
 }

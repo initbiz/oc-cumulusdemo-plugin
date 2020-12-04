@@ -1,4 +1,6 @@
-<?php namespace Initbiz\CumulusDemo\Components;
+<?php
+
+namespace Initbiz\CumulusDemo\Components;
 
 use Flash;
 use Redirect;
@@ -19,7 +21,7 @@ class Todo extends ComponentBase
     }
 
     public function onRun()
-    {   
+    {
         $this->page['items'] = TodoItem::with('user')->clusterIdFiltered()->get();
     }
 
@@ -30,12 +32,11 @@ class Todo extends ComponentBase
 
         $item = new TodoItem();
         $item->name = post('newItem');
-        $item->cluster_id = $cluster->id; 
+        $item->cluster_id = $cluster->id;
         $item->user_id = $user->id;
-        try{
+        try {
             $item->save();
-        }
-        catch(\Exception $e){
+        } catch (\Exception $e) {
             Flash::error($e->getMessage());
             return Redirect::refresh();
         }
@@ -44,6 +45,6 @@ class Todo extends ComponentBase
     }
     public function onRemoveItem()
     {
-        $del= TodoItem::where('id', post('delItem'))->delete();
+        $del = TodoItem::where('id', post('delItem'))->delete();
     }
 }

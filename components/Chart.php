@@ -1,4 +1,6 @@
-<?php namespace Initbiz\CumulusDemo\Components;
+<?php
+
+namespace Initbiz\CumulusDemo\Components;
 
 use Cms\Classes\ComponentBase;
 use Initbiz\CumulusCore\Classes\Helpers;
@@ -25,9 +27,8 @@ class Chart extends ComponentBase
 
         $cluster = Helpers::getCluster();
         $todoItemsCount = TodoItem::clusterIdFiltered()->count();
-        
-        if($cluster->canEnterFeature('initbiz.cumulusdemo.advanced.dashboard'))
-        {
+
+        if ($cluster->canEnterFeature('initbiz.cumulusdemo.advanced.dashboard')) {
             $allowedItemsCount = 5;
             if ($cluster->canEnterFeature('initbiz.cumulusdemo.advanced.todo')) {
                 $allowedItemsCount = 10;
@@ -35,6 +36,6 @@ class Chart extends ComponentBase
 
             $this->page['todoItemsCount'] = $todoItemsCount;
             $this->page['allowedItemsCount'] = $allowedItemsCount;
-        }        
+        }
     }
 }
