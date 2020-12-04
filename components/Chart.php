@@ -22,8 +22,8 @@ class Chart extends ComponentBase
     }
     public function onRun()
     {
-        $this->addCss("assets/chartist.min.css");
-        $this->addJs("assets/chartist.min.js");
+        $this->addCss("assets/chartist.css");
+        $this->addJs("assets/chartist.js");
 
         $cluster = Helpers::getCluster();
         $todoItemsCount = TodoItem::clusterIdFiltered()->count();
