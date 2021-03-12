@@ -1,0 +1,37 @@
+{% put styles %}
+<style>
+
+    .ct-series-a .ct-bar, .ct-series-a .ct-line, .ct-series-a .ct-point, .ct-series-a .ct-slice-donut {
+        stroke: #e74c3c;
+    }
+    .ct-series-b .ct-bar, .ct-series-b .ct-line, .ct-series-b .ct-point, .ct-series-b .ct-slice-donut {
+        stroke: #18bc9c;
+    }
+</style>
+{% endput %}
+<h3 class="card-header">            
+    available tasks
+</h3>
+<div id="chart" class="ct-chart ct-major-tenth"></div>
+
+{% put scripts %}
+
+<script>
+
+    function chart(){
+        var data = {
+            series: ['{{ todoItemsCount }}', {{ allowedItemsCount - todoItemsCount }}],
+        };
+
+        new Chartist.Pie('#chart', data, {donut: true});
+    }
+
+    chart();
+
+    $('#dashboard-container').on('change', function() {
+        chart();
+    });
+    
+</script>
+
+{% endput %}

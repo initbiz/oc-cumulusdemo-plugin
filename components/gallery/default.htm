@@ -1,0 +1,28 @@
+<div class="gallery container">
+    <div class="row">
+        {% for i in 1..10 %}
+        <div class="card mb-3" style="max-width: 33%;">
+            <img style="width: 100%; display: block;" src="{{ img }}" alt="Card image">
+            <div class="card-footer text-muted"> {{random(15)}} days ago</div>
+        </div>
+        {% endfor %}
+
+        {% if not canEnterFeature('initbiz.cumulusdemo.advanced.gallery') %}
+            <div id="modal-upgrade" class="modal fade bd-example-modal-sm" tabindex="1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content px-5 py-3">
+                        Upgrade your plan too remove watermark.
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% put scripts %}
+<script>
+$(window).load(function()
+{
+    $('#modal-upgrade').modal('show');
+});
+</script>
+{% endput %}
