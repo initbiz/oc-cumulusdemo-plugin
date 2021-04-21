@@ -1,0 +1,18 @@
+{
+    "name": "initbiz/cumulusdemo-plugin",
+    "type": "october-plugin",
+    "description": "Seed your Cumulus based app and make Cumulus theme work",
+    "homepage": "https://init.biz",
+    "keywords": [
+        "october",
+        "octobercms",
+        "cumulus",
+        "saas"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": ">=7.0",
+        "composer/installers": "~1.0",
+        "initbiz/cumuluscore-plugin": "dev-master"
+    }
+}
